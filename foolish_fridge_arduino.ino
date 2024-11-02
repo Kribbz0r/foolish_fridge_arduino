@@ -23,7 +23,6 @@ String warningString = "2";
 String doorOpenTimeString = "0";
 
 
-
 void sendData(){
   String foolishFridgeData = "{\"warning\":" + warningString + ",\"doorOpenTime\":" + doorOpenTimeString + "}";
   client.beginRequest();
@@ -88,7 +87,7 @@ void loop() {
     doorOpenTime = doorOpenTime+ 2000;
     internalArduinoCounter = internalArduinoCounter+2000;
 
-    if (internalArduinoCounter >= 60000){
+    if (internalArduinoCounter >= 10000){
     warning = true;
     Serial.println("|   !!!!!!!PANIC!!!!!!!!!  |");
     Serial.println();
@@ -120,8 +119,13 @@ void loop() {
 
   } else if(obstacleSensorPinValue > detect && doorOpen == true){
     Serial.println("DÖRREN STÄNGS");
+    if (warning == true){
+    warningString = String(2);
 
-    warningString = String(warning);
+    } else {
+      warningString = String(warning);
+    }
+
     doorOpenTimeString = String(doorOpenTime);
     delay(300);
 
